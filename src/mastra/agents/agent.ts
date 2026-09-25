@@ -1,10 +1,11 @@
 import { pathToFileURL } from 'node:url';
 import { Agent } from '@mastra/core/agent';
 import { TaskSignalProvider } from '@mastra/core/signals';
-import { askUserTool, webFetchTool, webSearchTool } from '@mastra/core/tools';
+import { askUserTool, webFetchTool } from '@mastra/core/tools';
 import { LocalFilesystem, LocalSandbox, WORKSPACE_TOOLS, Workspace } from '@mastra/core/workspace';
 import { Memory } from '@mastra/memory';
 import { startScheduleTool, stopScheduleTool } from '../tools/schedule-tools';
+import { ollama } from 'ollama-ai-provider-v2';
 
 const workspacePath = 'workspace';
 
@@ -30,6 +31,10 @@ const workspace = new Workspace({
   },
 });
 
+// ollama-ai-provider-v2 resolves its own copy of @ai-sdk/provider, so its type is
+// structurally compatible but nominally distinct from Mastra's expected model type
+const localModel = ollama('gemma4:26b') as any;
+
 export const agent = new Agent({
   id: 'agent',
   name: 'Agent',
@@ -40,7 +45,7 @@ export const agent = new Agent({
       "What's the weather in Austin this weekend?",
       "What's the SPCX stock price right now?",
       'Build a Japanese sakura festival landing page.',
-    ],
+    ], 
   },
   instructions: `You are a friendly starter agent for exploring what Mastra can do. Help the user try useful capabilities, build small projects, answer current questions, and shape this harness into a starting point for future work.
 
@@ -52,7 +57,8 @@ Ask concise questions when something is unclear or a good question could surface
 
 For local file changes, end with a plain-text URL using ${pathToFileURL(`${workspacePath}/`).href}; avoid Markdown links, localhost, /workspace, relative paths, and static-file servers.
 `,
-  model: 'openai/gpt-5.6-terra',
+  // model: 'openai/gpt-5.6-terra',
+  model: localModel,
   defaultOptions: {
     maxSteps: 100,
     autoResumeSuspendedTools: true,
@@ -71,7 +77,6 @@ For local file changes, end with a plain-text URL using ${pathToFileURL(`${works
     start_schedule: startScheduleTool,
     stop_schedule: stopScheduleTool,
     web_fetch: webFetchTool,
-    web_search: webSearchTool,
   },
   signals: [new TaskSignalProvider()],
 });
