@@ -22,6 +22,8 @@
     "@mastra/libsql": "1.23.0",
     "@mastra/memory": "1.30.0",
     "@mastra/observability": "1.17.8",
+    "ai-sdk-ollama": "^4.3.0",
+    "ollama-ai-provider-v2": "^4.0.1",
     "zod": "^4.4.3"
   },
   "devDependencies": {
