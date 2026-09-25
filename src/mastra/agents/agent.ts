@@ -37,7 +37,7 @@ const localModel = ollama('gemma4:26b') as any;
 
 export const agent = new Agent({
   id: 'agent',
-  name: 'Agent',
+  name: 'Ollama - gemma4:26b',
   description:
     'A general-purpose assistant that can research, manage tasks, work with local files, run approved commands, and create recurring schedules.',
   metadata: {
