@@ -59,6 +59,9 @@ For local file changes, end with a plain-text URL using ${pathToFileURL(`${works
 `,
   // model: 'openai/gpt-5.6-terra',
   model: localModel,
+  goal: {
+    judge: localModel,
+  },
   defaultOptions: {
     maxSteps: 100,
     autoResumeSuspendedTools: true,
