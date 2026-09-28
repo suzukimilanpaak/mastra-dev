@@ -1,4 +1,4 @@
-import { pathToFileURL } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { Agent } from '@mastra/core/agent';
 import { TaskSignalProvider } from '@mastra/core/signals';
 import { askUserTool, createTool, webFetchTool } from '@mastra/core/tools';
@@ -14,7 +14,7 @@ import { startScheduleTool, stopScheduleTool } from '../tools/schedule-tools';
 import { ollama } from 'ollama-ai-provider-v2';
 import { z } from 'zod';
 
-const workspacePath = 'workspace';
+const workspacePath = fileURLToPath(new URL('../../works', import.meta.url));
 
 const workspace = new Workspace({
   id: 'agent-workspace',
