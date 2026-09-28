@@ -8,7 +8,7 @@ import {
   Observability,
   SensitiveDataFilter,
 } from '@mastra/observability';
-import { agent } from './agents/agent';
+import { agent, setRailsGoalTool } from './agents/agent';
 import { startScheduleTool, stopScheduleTool } from './tools/schedule-tools';
 
 export const mastra = new Mastra({
@@ -16,7 +16,7 @@ export const mastra = new Mastra({
     externals: ['@duckdb/node-bindings'],
   },
   agents: { agent },
-  tools: { startScheduleTool, stopScheduleTool },
+  tools: { setRailsGoalTool, startScheduleTool, stopScheduleTool },
   storage: new MastraCompositeStore({
     id: 'composite-storage',
     default: new LibSQLStore({
